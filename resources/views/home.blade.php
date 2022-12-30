@@ -86,62 +86,49 @@
     <section class="content">
       
     <div class="row">
-        @foreach(get_rt() as $no=>$kd)
-            <?php
-                if($no==0){
-                    $color="blue";
-                }
-                if($no==1){
-                    $color="aqua";
-                }
-                if($no==2){
-                    $color="green";
-                }
-                if($no==3){
-                    $color="red";
-                }
-                
-            ?>
-            <div class="col-lg-3 col-xs-6">
-            
-                <div class="small-box bg-{{$color}}">
-                    <div class="inner">
-                        <h3>{{count_warga($kd->nama_rt,0)}}<sup style="font-size: 20px">Pr</sup></h3>
+            <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="info-box bg-yellow">
+                        <span class="info-box-icon"><i class="fa fa-users"></i></span>
 
-                        <p>Bpk/Ibu{{$kd->ketua_rt}} / <b>RT {{$kd->nama_rt}}</b></p>
-                     
+                        <div class="info-box-content">
+                        <span class="info-box-text">Laki-Laki</span>
+                        <span class="info-box-number" style="font-size: 14.3px;">{{count_jeniskelamin('L')}}</span>
+                        <span class="info-box-text">Perempuan</span>
+                        <span class="info-box-number" style="font-size: 14.3px;">{{count_jeniskelamin('P')}}</span>
+
                         
+                        </div>
+                        <!-- /.info-box-content -->
                     </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="{{url('barang')}}" class="small-box-footer">Lihat Data <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
-            </div>
-        @endforeach
-            <div class="col-lg-3 col-xs-6">
-            
-                <div class="small-box bg-orange">
-                    <div class="inner">
-                        <h3>ss<sup style="font-size: 20px">Pr</sup></h3>
+                <div class="col-md-6">
 
-                        <p>Total Pr</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="{{url('barang')}}" class="small-box-footer">Lihat Data <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
                 </div>
             </div>
+            @foreach(get_statusaktif() as $agm)
+                <div class="col-md-3">
+                    <div class="info-box" style="background: #fff;">
+                    <span class="info-box-icon bg-{{$agm->color}}"><i class="ion ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">{{$agm->status_aktif}}</span>
+                        <span class="info-box-number">{{count_aktif($agm->id)}}</span>
+                    </div>
+                    </div>
+                </div>
+            @endforeach
     </div>
         
         
       
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Grafik Product Request</h3>
+                    <h3 class="box-title">Grafik Keuangan RT {{Auth::user()->rt}} Tahun {{$tahun}}</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -156,11 +143,9 @@
                 </div>
                 <!-- /.box-body -->
             </div>
-        </div>
-        <div class="col-md-3">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Product Request</h3>
+                    <h3 class="box-title">Dashboard Pernikahan</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -169,51 +154,34 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    @foreach(get_rt() as $no=>$kd)
-                        <?php
-                            if($no==0){
-                                $color="blue";
-                            }
-                            if($no==1){
-                                $color="aqua";
-                            }
-                            if($no==2){
-                                $color="green";
-                            }
-                            if($no==3){
-                                $color="red";
-                            }
-                            
-                        ?>
-                        <div class="progress-group">
-                            <span class="progress-text">{{$kd->nama_rt}}</span>
-                            <span class="progress-number"><b>{{$kd->ketua_rt}}</b></span>
+                    <div class="row">
+                        @foreach(get_pernikahan() as $agm)
+                            <div class="col-md-4">
+                                <div class="info-box bg-{{$agm->color}}">
+                                    <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
 
-                            <div class="progress sm">
-                                <div class="progress-bar progress-bar-{{$color}}" style="width: 100%"></div>
-                            </div>
-                        </div>
-                    @endforeach
-                        <div class="progress-group">
-                            <span class="progress-text">Total</span>
-                            <span class="progress-number"><b>100</b></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">{{$agm->pernikahan}}</span>
+                                        <span class="info-box-number">{{count_pernikahan($agm->pernikahan)}}</span>
 
-                            <div class="progress sm">
-                                <div class="progress-bar progress-bar-yellow" style="width: 100%"></div>
+                                        <div class="progress">
+                                            <div class="progress-bar" style="width: {{persen_pernikahan($agm->pernikahan)}}%"></div>
+                                        </div>
+                                        <span class="progress-description">
+                                            {{persen_pernikahan($agm->pernikahan)}}%
+                                        </span>
+                                    </div>
+                                    
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
+                    </div>
                 </div>
-                  
+                <!-- /.box-body -->
             </div>
-                 
-                
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-9">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Grafik Customer Registrasi</h3>
+                    <h3 class="box-title">Dashboard Pekerjaan</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -222,17 +190,31 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    <div class="chart">
-                        <canvas id="barChartcustomer" style="height: 230px; width: 510px;" height="230" width="510"></canvas>
+                    <div class="row">
+                       <div class="col-md-12">
+                            @foreach(get_pekerjaan() as $agm)
+                           
+                 
+                                <div class="clearfix">
+                                    <span class="pull-left">{{$agm->pekerjaan}} ({{count_pekerjaan($agm->pekerjaan)}})</span>
+                                    <small class="pull-right">{{persen_pekerjaan($agm->pekerjaan)}}%</small>
+                                </div>
+                                <div class="progress xs">
+                                    <div class="progress-bar progress-bar-{{$agm->color}}" style="width: {{persen_pekerjaan($agm->pekerjaan)}}%;"></div>
+                                </div>
+
+                
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <!-- /.box-body -->
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="box">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Customer Registrasi</h3>
+                    <h3 class="box-title">KEUANGAN {{$tahun}}</h3>
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -241,39 +223,29 @@
                     </div>
                 </div>
                 <div class="box-body">
-                    @foreach(get_rt() as $no=>$kd)
-                        <?php
-                            if($no==0){
-                                $color="blue";
-                            }
-                            if($no==1){
-                                $color="aqua";
-                            }
-                            if($no==2){
-                                $color="green";
-                            }
-                            if($no==3){
-                                $color="red";
-                            }
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tbody>
+                                <tr>
+                                    <th>Bulan</th>
+                                    <th>Pemasukan</th>
+                                    <th >Pengeluaran</th>
+                                </tr>
+                                @for($x=1;$x<13;$x++)
+                                    <tr>
+                                        <td>{{bulan(ubah_bulan($x))}}</td>
+                                        <td></td>
+                                        <td></td>
+                                        
+                                    </tr>
+                                    
+                                @endfor
+                                
                             
-                        ?>
-                        <div class="progress-group">
-                            <span class="progress-text">{{$kd->nama_rt}}</span>
-                            <span class="progress-number"><b>dd</b></span>
-
-                            <div class="progress sm">
-                                <div class="progress-bar progress-bar-{{$color}}" style="width: 10%"></div>
-                            </div>
-                        </div>
-                    @endforeach
-                        <div class="progress-group">
-                            <span class="progress-text">Total</span>
-                            <span class="progress-number"><b>100</b></span>
-
-                            <div class="progress sm">
-                                <div class="progress-bar progress-bar-yellow" style="width: 100%"></div>
-                            </div>
-                        </div>
+                            </tbody>
+                    
+                        </table>
+                    </div>
                 </div>
                   
             </div>
@@ -282,7 +254,6 @@
         </div>
       </div>
       
-
     </section>
   </div>
 @endsection

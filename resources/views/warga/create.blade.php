@@ -42,7 +42,7 @@
         <div class="box-body">
           <form  id="mydata" class="form-horizontal" method="post" action="{{ url('warga') }}" enctype="multipart/form-data" >
             @csrf 
-            <input type="text" name="id" value="{{$id}}">
+            <input type="hidden" name="id" value="{{$id}}">
             <div class="row">
             
               <div class="col-md-6">

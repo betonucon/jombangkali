@@ -23,6 +23,7 @@ class HomeController extends Controller
      */
     public function index(request $request)
     {
+        error_reporting(0);
         if($request->tahun==""){
             $tahun=date('Y');
         }else{

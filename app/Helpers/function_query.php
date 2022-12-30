@@ -47,6 +47,10 @@ function count_jeniskelamin_rt($jeniskelamin){
     $data=App\Models\Viewwarga::where('jenis_kelamin',$jeniskelamin)->where('rt',Auth::user()->rt)->count();
     return $data;
 }
+function count_jeniskelamin($jeniskelamin){
+    $data=App\Models\Viewwarga::where('jenis_kelamin',$jeniskelamin)->count();
+    return $data;
+}
 
 function count_pernikahan($pernikahan){
     $data=App\Models\Viewwarga::where('pernikahan',$pernikahan)->count();
@@ -75,10 +79,7 @@ function persen_aktif($aktif){
     $data=App\Models\Viewwarga::where('aktif',$aktif)->count();
     return round(($data/$all)*100);
 }
-function count_jeniskelamin($jeniskelamin){
-    $data=App\Models\Viewwarga::where('jenis_kelamin',$jeniskelamin)->where('rt',Auth::user()->rt)->count();
-    return $data;
-}
+
 function get_pekerjaan(){
     $data=App\Models\Mpekerjaan::get();
     return $data;
