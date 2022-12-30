@@ -123,13 +123,13 @@
           </div>
 
           <div style="background: #f7f7ff; border: solid 2px #fff;" class="col-lg-2 col-md-12 col-12 align-items-center justify-content-center">
-            <img src="{{url_plug()}}/img/akun.png" style="width:100%;max-width: 100%;" alt="">
+            <img src="{{url_plug()}}/img/rw001.png" style="width:100%;max-width: 100%;" alt="">
             <div class="row"> 
                 <div class="col-md-12" style="background: aqua; padding: 5px 2px 2px 2px;">
                      <h5 style="display:block">KETUA RW 001</h5>
                 </div>
                 <div class="col-md-12" style="background: #fff; padding: 5px 2px 2px 2px;">
-                     <h5 style="display:block">XXXXXXXX</h5>
+                     <h5 style="display:block">Nurdi. S.HI</h5>
                 </div>
             </div>
             
