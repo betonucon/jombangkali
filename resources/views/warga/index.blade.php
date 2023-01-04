@@ -249,18 +249,18 @@
                 <table id="data-table-fixed-header" width="120%" class="cell-border">
                     <thead>
                         <tr>
-                            <th width="5%">No</th>
+                            <th width="3%">No</th>
                             
-                            <th width="4%"></th>
-                            <th width="12%">NIK</th>
-                            <th width="12%">NO Kartu Keluarga</th>
+                            <th width="2%"></th>
+                            <th width="11%">NIK</th>
+                            <th width="11%">NO Kartu Keluarga</th>
                             <th>Nama </th>
-                            <th width="13%">TTGL</th>
-                            <th width="7%">Umur</th>
-                            <th width="7%">J.K</th>
-                            <th width="7%">PDK</th>
-                            <th width="7%">Pekerjaan</th>
-                            <th width="7%">Status</th>
+                            <th width="11%">TTGL</th>
+                            <th width="5%">Umur</th>
+                            <th width="5%">J.K</th>
+                            <th width="5%">PDK</th>
+                            <th width="5%">Pekerjaan</th>
+                            <th width="5%">Status</th>
                             
                             
                         </tr>
