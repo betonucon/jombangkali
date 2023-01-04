@@ -116,6 +116,18 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label for="inputEmail3" class="col-sm-3 control-label">Pendidikan </label>
+
+                  <div class="col-sm-3">
+                    <select class="form-control" name="pendidikan_id"  >
+                        <option value="">Pilih-----</option>
+                        @foreach(get_pendidikan()() as $agm)
+                          <option value="{{$agm->id}}" @if($data->pendidikan_id==$agm->id) selected @endif >{{$agm->pendidikan}}</option>
+                        @endforeach
+                    </select>
+                  </div>
+                </div>
+                <div class="form-group">
                   <label for="inputEmail3" class="col-sm-3 control-label">Pernikahan </label>
 
                   <div class="col-sm-5">
@@ -139,6 +151,7 @@
                     </select>
                   </div>
                 </div>
+
                 <div class="form-group">
                   <label for="inputEmail3" class="col-sm-3 control-label">Status </label>
 
@@ -151,6 +164,7 @@
                     </select>
                   </div>
                 </div>
+                
               </div>
               
             </div>

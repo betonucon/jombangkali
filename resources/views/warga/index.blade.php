@@ -47,8 +47,10 @@
                         { data: 'no_kk' },
                         { data: 'nama' },
                         { data: 'ttgl' },
-                        { data: 'jenis_kelamin' },
                         { data: 'umur' },
+                        { data: 'jenis_kelamin' },
+                        { data: 'pendidikan' },
+                        
                         { data: 'pekerjaan' },
                         { data: 'status_aktif' },
                    
@@ -256,6 +258,7 @@
                             <th width="13%">TTGL</th>
                             <th width="7%">Umur</th>
                             <th width="9%">J.K</th>
+                            <th width="9%">PDK</th>
                             <th width="9%">Pekerjaan</th>
                             <th width="9%">Status</th>
                             

@@ -80,6 +80,10 @@ function persen_aktif($aktif){
     return round(($data/$all)*100);
 }
 
+function get_pendidikan(){
+    $data=App\Models\Mpendidikan::orderBy('id','Asc')->get();
+    return $data;
+}
 function get_pekerjaan(){
     $data=App\Models\Mpekerjaan::get();
     return $data;

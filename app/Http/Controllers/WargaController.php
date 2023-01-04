@@ -186,6 +186,9 @@ class WargaController extends Controller
         $rules['pernikahan']= 'required';
         $messages['pernikahan.required']= 'Lengkapi kolom pernikahan';
 
+        $rules['pendidikan_id']= 'required';
+        $messages['pendidikan_id.required']= 'Lengkapi kolom pendidikan';
+        
         $rules['aktif']= 'required';
         $messages['aktif.required']= 'Lengkapi kolom status';
         
@@ -219,6 +222,7 @@ class WargaController extends Controller
                         'nama'=>$request->nama,
                         'alamat'=>$alamat,
                         'jenis_kelamin'=>$request->jenis_kelamin,
+                        'pendidikan_id'=>$request->pendidikan_id,
                         'tempat_lahir'=>$request->tempat_lahir,
                         'tanggal_lahir'=>$request->tanggal_lahir,
                         'agama'=>$request->agama,
@@ -238,6 +242,7 @@ class WargaController extends Controller
                         
                     'no_kk'=>$request->no_kk,
                     'nama'=>$request->nama,
+                    'pendidikan_id'=>$request->pendidikan_id,
                     'jenis_kelamin'=>$request->jenis_kelamin,
                     'tempat_lahir'=>$request->tempat_lahir,
                     'tanggal_lahir'=>$request->tanggal_lahir,
