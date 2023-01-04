@@ -246,7 +246,7 @@
            
             <div class="col-md-12">
               <div class="table-responsive">
-                <table id="data-table-fixed-header" class="cell-border">
+                <table id="data-table-fixed-header" width="120%" class="cell-border">
                     <thead>
                         <tr>
                             <th width="5%">No</th>
