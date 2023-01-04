@@ -252,7 +252,7 @@
                         <tr>
                             <th width="3%">No</th>
                             
-                            <th width="2%"></th>
+                            <th width="4%"></th>
                             <th width="11%">NIK</th>
                             <th width="12%">NO Kartu Keluarga</th>
                             <th>Nama </th>
