@@ -50,6 +50,7 @@
                         { data: 'umur' },
                         { data: 'jenis_kelamin' },
                         { data: 'pendidikan' },
+                        { data: 'kd_pernikahan' },
                         
                         { data: 'pekerjaan' },
                         { data: 'status_aktif' },
@@ -259,6 +260,7 @@
                             <th width="4%">Umur</th>
                             <th width="4%">J.K</th>
                             <th width="4%">PDK</th>
+                            <th width="4%">PRK</th>
                             <th width="9%">Pekerjaan</th>
                             <th width="5%">Status</th>
                             
