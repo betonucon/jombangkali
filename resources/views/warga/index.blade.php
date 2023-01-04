@@ -253,13 +253,13 @@
                             
                             <th width="2%"></th>
                             <th width="11%">NIK</th>
-                            <th width="11%">NO Kartu Keluarga</th>
+                            <th width="12%">NO Kartu Keluarga</th>
                             <th>Nama </th>
                             <th width="11%">TTGL</th>
                             <th width="4%">Umur</th>
                             <th width="4%">J.K</th>
                             <th width="4%">PDK</th>
-                            <th width="7%">Pekerjaan</th>
+                            <th width="9%">Pekerjaan</th>
                             <th width="5%">Status</th>
                             
                             
