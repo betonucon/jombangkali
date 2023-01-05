@@ -8,6 +8,44 @@ function get_agama(){
     $data=App\Models\Magama::get();
     return $data;
 }
+function get_statuskeuangan(){
+    $data=App\Models\Mstatuskeuangan::orderBy('id','Asc')->get();
+    return $data;
+}
+function get_statuskeuangancari(){
+    $data=App\Models\Mstatuskeuangan::whereIn('id',array(2,3))->orderBy('id','Asc')->get();
+    return $data;
+}
+function sum_keuangan($status_keuangan_id){
+    if($status_keuangan_id==1){
+        if(Auth::user()->role_id==4 || Auth::user()->role_id==2){
+            $masuk =App\Models\Keuangan::where('rt',Auth::user()->rt)->where('status_keuangan_id',2)->where('aktif',1)->sum('nilai');
+            $keluar =App\Models\Keuangan::where('rt',Auth::user()->rt)->where('status_keuangan_id',3)->where('aktif',1)->sum('nilai');
+        }
+        if(Auth::user()->role_id==3 || Auth::user()->role_id==1){
+            $masuk = App\Models\Keuangan::where('rw',Auth::user()->rw)->whereIn('role_id',array(1,3))->where('status_keuangan_id',2)->where('aktif',1)->sum('nilai');
+            $keluar = App\Models\Keuangan::where('rw',Auth::user()->rw)->whereIn('role_id',array(1,3))->where('status_keuangan_id',3)->where('aktif',1)->sum('nilai');
+        }
+        $data=$masuk-$keluar;
+    }else{
+        if(Auth::user()->role_id==4 || Auth::user()->role_id==2){
+            $data =App\Models\Keuangan::where('rt',Auth::user()->rt)->where('status_keuangan_id',$status_keuangan_id)->where('aktif',1)->sum('nilai');
+        }
+        if(Auth::user()->role_id==3 || Auth::user()->role_id==1){
+            $data = App\Models\Keuangan::where('rw',Auth::user()->rw)->whereIn('role_id',array(1,3))->where('status_keuangan_id',$status_keuangan_id)->where('aktif',1)->sum('nilai');
+        }
+    }
+    return $data;
+}
+function sum_keuangan_periode($status_keuangan_id,$bulan,$tahun){
+    if(Auth::user()->role_id==4 || Auth::user()->role_id==2){
+        $data =App\Models\Keuangan::where('rt',Auth::user()->rt)->where('status_keuangan_id',$status_keuangan_id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$tahun)->where('aktif',1)->sum('nilai');
+    }
+    if(Auth::user()->role_id==3 || Auth::user()->role_id==1){
+        $data = App\Models\Keuangan::where('rw',Auth::user()->rw)->whereIn('role_id',array(1,3))->where('status_keuangan_id',$status_keuangan_id)->whereMonth('tanggal',$bulan)->whereYear('tanggal',$tahun)->where('aktif',1)->sum('nilai');
+    }
+    return $data;
+}
 function get_statusaktif(){
     $data=App\Models\Mstatusaktif::get();
     return $data;

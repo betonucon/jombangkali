@@ -448,6 +448,7 @@
 <script src="{{url_plug()}}/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{url_plug()}}/dist/js/demo.js"></script>
+
 <link rel="stylesheet" type="text/css" href="{{url_plug()}}/dist/jquery.dataTables.css">
   
 <script type="text/javascript" charset="utf8" src="{{url_plug()}}/dist/jquery.dataTables.js"></script>

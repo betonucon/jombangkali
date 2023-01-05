@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\Auth\LogoutController;
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,16 @@ Route::group(['prefix' => 'warga','middleware'    => 'auth'],function(){
     Route::get('/modal',[WargaController::class, 'modal']);
     Route::post('/',[WargaController::class, 'store']);
     Route::post('/import',[WargaController::class, 'import']);
+});
+Route::group(['prefix' => 'keuangan','middleware'    => 'auth'],function(){
+    Route::get('/',[KeuanganController::class, 'index']);
+    Route::get('/view',[KeuanganController::class, 'view_data']);
+    Route::get('/getdata',[KeuanganController::class, 'get_data']);
+    Route::get('/delete_data',[KeuanganController::class, 'delete_data']);
+    Route::get('/create',[KeuanganController::class, 'create']);
+    Route::get('/modal',[KeuanganController::class, 'modal']);
+    Route::post('/',[KeuanganController::class, 'store']);
+    Route::post('/import',[KeuanganController::class, 'import']);
 });
 Route::group(['middleware' => 'auth'], function() {
     /**

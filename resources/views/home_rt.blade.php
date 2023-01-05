@@ -234,9 +234,8 @@
                                 @for($x=1;$x<13;$x++)
                                     <tr>
                                         <td>{{bulan(ubah_bulan($x))}}</td>
-                                        <td></td>
-                                        <td></td>
-                                        
+                                        <td>{{uang(sum_keuangan_periode(2,ubah_bulan($x),$tahun))}}</td>
+                                        <td>{{uang(sum_keuangan_periode(3,ubah_bulan($x),$tahun))}}</td>
                                     </tr>
                                     
                                 @endfor
@@ -278,34 +277,23 @@
         @endfor
       ],
       datasets: [
-        {
-          label               : 'Electronics',
-          fillColor           : 'rgba(210, 214, 222, 1)',
-          strokeColor         : 'rgba(210, 214, 222, 1)',
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : [
-            @for($x=1;$x<13;$x++)
-                {{$x*10}},
-            @endfor
-          ]
-        },
-        {
-          label               : 'Digital Goods',
-          fillColor           : 'rgba(60,141,188,0.9)',
-          strokeColor         : 'rgba(60,141,188,0.8)',
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : [
-            @for($x=1;$x<13;$x++)
-                {{$x*12}},
-            @endfor
-          ]
-        }
+        @foreach(get_statuskeuangancari() as $agm)
+            {
+            label               : '{{$agm->status_keuangan}}',
+            fillColor           : 'rgba(210, 214, 222, 1)',
+            strokeColor         : 'rgba(210, 214, 222, 1)',
+            pointColor          : 'rgba(210, 214, 222, 1)',
+            pointStrokeColor    : '#c1c7d1',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,1)',
+            data                : [
+                @for($x=1;$x<13;$x++)
+                    {{sum_keuangan_periode($agm->id,ubah_bulan($x),$tahun)}},
+                @endfor
+            ]
+            //   sum_keuangan_periode
+            },
+        @endforeach
       ]
     }
     // get_CustomerYear
