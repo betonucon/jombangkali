@@ -179,7 +179,9 @@ class WargaController extends Controller
     {
         error_reporting(0);
         $query = Viewdatakk::query();
-        
+        if(Auth::user()->role_id==2){
+            $data = $query->where('rt',Auth::user()->rt);
+        }
         $data = $query->where('cek',1)->orderBy('nama','Desc')->get();
 
         return Datatables::of($data)
