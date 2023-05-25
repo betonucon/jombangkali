@@ -35,6 +35,9 @@ function jam($date=null){
 function sekarang(){
    return date('Y-m-d H:i:s');
 }
+function indo_tanggal($tgl){
+   return date('d-m-Y',strtotime($tgl));
+}
 function selisih_waktu($waktu1,$waktu2){
    $waktu_awal        =strtotime($waktu1);
    $waktu_akhir    =strtotime($waktu2); // bisa juga waktu sekarang now()

@@ -9,12 +9,11 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\WargaImport;
 use Validator;
-use App\Models\Keuangan;
-use App\Models\Viewdatakk;
-use App\Models\Viewkeuangan;
+use App\Models\Warga;
+use App\Models\Viewwarga;
 use App\Models\User;
 
-class KeuanganController extends Controller
+class NonwargaController extends Controller
 {
     
     public function index(request $request)
@@ -22,9 +21,9 @@ class KeuanganController extends Controller
         error_reporting(0);
         $template='top';
         if(Auth::user()->role_id==1){
-            return view('keuangan.index_rw',compact('template'));
+            return view('nonwarga.index_rw',compact('template'));
         }else{
-            return view('keuangan.index',compact('template'));
+            return view('nonwarga.index',compact('template'));
         }
         
     }
@@ -34,13 +33,13 @@ class KeuanganController extends Controller
         $template='top';
         $id=$request->id;
         
-        $data=Keuangan::where('id',$id)->first();
+        $data=Warga::where('id',$id)->first();
         if($id==0){
             $disabled='';
         }else{
             $disabled='readonly';
         }
-        return view('keuangan.create',compact('template','data','disabled','id'));
+        return view('nonwarga.create',compact('template','data','disabled','id'));
     }
     public function modal(request $request)
     {
@@ -91,29 +90,36 @@ class KeuanganController extends Controller
     public function get_data(request $request)
     {
         error_reporting(0);
-        $query = Viewkeuangan::query();
+        $query = Viewwarga::query();
         // if($request->kd_divisi!=""){
         //     $data = $query->where('kd_divisi',$request->kd_divisi);
         // }
-        if(Auth::user()->role_id==4){
+        if(Auth::user()->role_id==2){
             $data = $query->where('rt',Auth::user()->rt);
         }
-        if(Auth::user()->role_id==3){
-            $data = $query->where('rw',Auth::user()->rw);
-        }
         
-        if($request->status_keuangan_id==""){
+        if($request->pernikahan==""){
             
         }else{
-            $data = $query->whereIn('status_keuangan_id',array($request->status_keuangan_id));
+            $data = $query->whereIn('pernikahan',array($request->pernikahan));
         }
-        
-        $data = $query->where('aktif',1)->orderBy('tanggal','Desc')->get();
+        if($request->pekerjaan==""){
+            
+        }else{
+            $data = $query->whereIn('pekerjaan',array($request->pekerjaan));
+        }
+        if($request->aktif==""){
+            $data = $query->whereIn('aktif',array(1,2,3));
+        }else{
+            $data = $query->whereIn('aktif',array($request->aktif));
+        }
+       
+        $data = $query->orderBy('nama','Asc')->get();
 
         return Datatables::of($data)
             ->addIndexColumn()
-            ->addColumn('uang_nilai', function ($row) {
-                $btn=uang($row->nilai);
+            ->addColumn('ttgl', function ($row) {
+                $btn=$row->tempat_lahir.', '.$row->tanggal_lahir;
                 return $btn;
             })
             ->addColumn('action', function ($row) {
@@ -123,7 +129,7 @@ class KeuanganController extends Controller
                          <i class="fa fa-ellipsis-h"></i>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:;" onclick="location.assign(`'.url('keuangan/create').'?id='.$row->id.'`)">Ubah</a></li>
+                            <li><a href="javascript:;" onclick="location.assign(`'.url('warga/create').'?id='.$row->id.'`)">Ubah</a></li>
                             <li><a href="javascript:;" onclick="delete_data('.$row->id.')">Delete</a></li>
                         </ul>
                     </div>
@@ -135,10 +141,9 @@ class KeuanganController extends Controller
             ->make(true);
     }
     
-    
 
     public function delete_data(request $request){
-        $data = Keuangan::where('id',$request->id)->update([
+        $data = Warga::where('id',$request->id)->update([
             'aktif'=>0,
         ]);
 
@@ -152,21 +157,40 @@ class KeuanganController extends Controller
         $rules = [];
         $messages = [];
         if($request->id==0){
-            $rules['keterangan']= 'required';
-            $messages['keterangan.required']= 'Lengkapi kolom keterangan';
+            $rules['nik']= 'required';
+            $messages['nik.required']= 'Lengkapi kolom nik/no ktp';
             
            
         }
         
-        $rules['status_keuangan_id']= 'required';
-        $messages['status_keuangan_id.required']= 'Lengkapi kolom status keuangan';
-
-        $rules['nilai']= 'required|numeric';
-        $messages['nilai.required']= 'Lengkapi kolom nilai';
+        $rules['no_kk']= 'required';
+        $messages['no_kk.required']= 'Lengkapi kolom nomor kartu keluarga';
+        $rules['nama']= 'required';
+        $messages['nama.required']= 'Lengkapi kolom nama';
         
-        $rules['tanggal']= 'required';
-        $messages['tanggal.required']= 'Lengkapi kolom tanggal';
+        $rules['tempat_lahir']= 'required';
+        $messages['tempat_lahir.required']= 'Lengkapi kolom tempat lahir';
 
+        $rules['tanggal_lahir']= 'required';
+        $messages['tanggal_lahir.required']= 'Lengkapi kolom tanggal lahir';
+        
+        $rules['jenis_kelamin']= 'required';
+        $messages['jenis_kelamin.required']= 'Lengkapi kolom jenis_kelamin';
+        
+        $rules['agama']= 'required';
+        $messages['agama.required']= 'Lengkapi kolom agama';
+        
+        $rules['pekerjaan']= 'required';
+        $messages['pekerjaan.required']= 'Lengkapi kolom pekerjaan';
+
+        $rules['pernikahan']= 'required';
+        $messages['pernikahan.required']= 'Lengkapi kolom pernikahan';
+
+        $rules['pendidikan_id']= 'required';
+        $messages['pendidikan_id.required']= 'Lengkapi kolom pendidikan';
+        
+        $rules['aktif']= 'required';
+        $messages['aktif.required']= 'Lengkapi kolom status';
         
        
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -184,30 +208,48 @@ class KeuanganController extends Controller
             echo'</div></div>';
         }else{
             if($request->id==0){
-               
-                    $data=Keuangan::create([
+               if($request->act==1){
+                    $alamat=alamat().' RT/RW '.Auth::user()->rt.'/'.Auth::user()->rw.' '.kelurahan();
+                    $status=1;
+               }else{
+                    $alamat=$request->alamat;
+                    $status=2;
+               }
+                    $data=Warga::create([
                         
-                        'keterangan'=>$request->keterangan,
-                        'nilai'=>$request->nilai,
-                        'tanggal'=>$request->tanggal,
-                        'status_keuangan_id'=>$request->status_keuangan_id,
+                        'nik'=>$request->nik,
+                        'no_kk'=>$request->no_kk,
+                        'nama'=>$request->nama,
+                        'alamat'=>$alamat,
+                        'jenis_kelamin'=>$request->jenis_kelamin,
+                        'pendidikan_id'=>$request->pendidikan_id,
+                        'tempat_lahir'=>$request->tempat_lahir,
+                        'tanggal_lahir'=>$request->tanggal_lahir,
+                        'agama'=>$request->agama,
+                        'pekerjaan'=>$request->pekerjaan,
+                        'pernikahan'=>$request->pernikahan,
+                        'aktif'=>$request->aktif,
+                        'status'=>$status,
                         'rt'=>Auth::user()->rt,
                         'rw'=>Auth::user()->rw,
-                        'aktif'=>1,
-                        'role_id'=>Auth::user()->role_id,
-                        'created'=>date('Y-m-d H:i:s'),
                     ]);
 
                     echo'@ok';
                 
                 
             }else{
-                $data=Keuangan::where('id',$request->id)->update([
+                $data=Warga::where('id',$request->id)->update([
                         
-                    'keterangan'=>$request->keterangan,
-                    'nilai'=>$request->nilai,
-                    'tanggal'=>$request->tanggal,
-                    'status_keuangan_id'=>$request->status_keuangan_id,
+                    'no_kk'=>$request->no_kk,
+                    'nama'=>$request->nama,
+                    'pendidikan_id'=>$request->pendidikan_id,
+                    'jenis_kelamin'=>$request->jenis_kelamin,
+                    'tempat_lahir'=>$request->tempat_lahir,
+                    'tanggal_lahir'=>$request->tanggal_lahir,
+                    'pernikahan'=>$request->pernikahan,
+                    'agama'=>$request->agama,
+                    'pekerjaan'=>$request->pekerjaan,
+                    'aktif'=>$request->aktif,
                 ]);
 
                 echo'@ok';

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WargaController;
+use App\Http\Controllers\NonwargaController;
 use App\Http\Controllers\KeuanganController;
 use App\Http\Controllers\Auth\LogoutController;
 /*
@@ -26,6 +27,27 @@ Route::group(['prefix' => 'warga','middleware'    => 'auth'],function(){
     Route::get('/modal',[WargaController::class, 'modal']);
     Route::post('/',[WargaController::class, 'store']);
     Route::post('/import',[WargaController::class, 'import']);
+});
+Route::group(['prefix' => 'kk','middleware'    => 'auth'],function(){
+    Route::get('/',[WargaController::class, 'index_kk']);
+    Route::get('/view',[WargaController::class, 'view_data_kk']);
+    Route::get('/getdata',[WargaController::class, 'get_data_kk']);
+    Route::get('/delete_data',[WargaController::class, 'delete_data_kk']);
+    Route::get('/create',[WargaController::class, 'create_kk']);
+    Route::get('/modal',[WargaController::class, 'modal_kk']);
+    Route::get('/cetak',[WargaController::class, 'cetak_kk']);
+    Route::post('/',[WargaController::class, 'store_kk']);
+    Route::post('/import',[WargaController::class, 'import_kk']);
+});
+Route::group(['prefix' => 'nonwarga','middleware'    => 'auth'],function(){
+    Route::get('/',[NonwargaController::class, 'index']);
+    Route::get('/view',[NonwargaController::class, 'view_data']);
+    Route::get('/getdata',[NonwargaController::class, 'get_data']);
+    Route::get('/delete_data',[NonwargaController::class, 'delete_data']);
+    Route::get('/create',[NonwargaController::class, 'create']);
+    Route::get('/modal',[NonwargaController::class, 'modal']);
+    Route::post('/',[NonwargaController::class, 'store']);
+    Route::post('/import',[NonwargaController::class, 'import']);
 });
 Route::group(['prefix' => 'keuangan','middleware'    => 'auth'],function(){
     Route::get('/',[KeuanganController::class, 'index']);

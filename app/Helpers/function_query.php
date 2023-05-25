@@ -12,6 +12,10 @@ function get_statuskeuangan(){
     $data=App\Models\Mstatuskeuangan::orderBy('id','Asc')->get();
     return $data;
 }
+function get_detail_warga($no_kk){
+    $data=App\Models\Viewdatakk::where('no_kk',$no_kk)->orderBy('cek','Desc')->get();
+    return $data;
+}
 function get_statuskeuangancari(){
     $data=App\Models\Mstatuskeuangan::whereIn('id',array(2,3))->orderBy('id','Asc')->get();
     return $data;

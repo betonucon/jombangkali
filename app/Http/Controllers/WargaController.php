@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\WargaImport;
 use Validator;
+use PDF;
 use App\Models\Warga;
 use App\Models\Viewwarga;
+use App\Models\Viewdatakk;
 use App\Models\User;
 
 class WargaController extends Controller
@@ -24,6 +26,17 @@ class WargaController extends Controller
             return view('warga.index_rw',compact('template'));
         }else{
             return view('warga.index',compact('template'));
+        }
+        
+    }
+    public function index_kk(request $request)
+    {
+        error_reporting(0);
+        $template='top';
+        if(Auth::user()->role_id==1){
+            return view('warga.index_rw_kk',compact('template'));
+        }else{
+            return view('warga.index_kk',compact('template'));
         }
         
     }
@@ -141,7 +154,37 @@ class WargaController extends Controller
             ->make(true);
     }
     
+    public function get_data_kk(request $request)
+    {
+        error_reporting(0);
+        $query = Viewdatakk::query();
+        
+        $data = $query->where('cek',1)->orderBy('nama','Desc')->get();
 
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('uang_nilai', function ($row) {
+                $btn=uang($row->nilai);
+                return $btn;
+            })
+            ->addColumn('action', function ($row) {
+                $btn='
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                         <i class="fa fa-ellipsis-h"></i>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="javascript:;" onclick="location.assign(`'.url('keuangan/create').'?id='.$row->id.'`)">Ubah</a></li>
+                            <li><a href="javascript:;" onclick="delete_data('.$row->id.')">Delete</a></li>
+                        </ul>
+                    </div>
+                ';
+                return $btn;
+            })
+            
+            ->rawColumns(['action'])
+            ->make(true);
+    }
     public function delete_data(request $request){
         $data = Warga::where('id',$request->id)->update([
             'aktif'=>0,
@@ -215,6 +258,10 @@ class WargaController extends Controller
                     $alamat=$request->alamat;
                     $status=2;
                }
+               $cek=Warga::where('nik',$request->nik)->count();
+               if($cek>0){
+                echo'<div class="nitof"><b>Oops Error !</b><br><div class="isi-nitof">NIK Sudah Terdaftar</div></div>';
+               }else{
                     $data=Warga::create([
                         
                         'nik'=>$request->nik,
@@ -235,6 +282,7 @@ class WargaController extends Controller
                     ]);
 
                     echo'@ok';
+               }
                 
                 
             }else{
@@ -255,5 +303,22 @@ class WargaController extends Controller
                 echo'@ok';
             }
         }
+    }
+
+    public function cetak_kk(request $request){
+        error_reporting(0);
+        $id=decoder($request->id);
+        if(Auth::user()->role_id==2){
+            $data=Viewdatakk::where('cek',1)->where('rt',Auth::user()->rt)->get();
+        }else{
+            $data=Viewdatakk::where('cek',1)->get();
+        }
+        
+        // $ford=3;
+        $pdf = PDF::loadView('warga.cetak_kk', compact('data'));
+        // $custom=array(0,0,500,400);
+        $pdf->setPaper('A4','landscape');
+        $pdf->stream('kartukeluarga.pdf');
+        return $pdf->stream();
     }
 }
