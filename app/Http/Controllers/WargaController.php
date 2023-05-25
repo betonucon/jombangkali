@@ -174,8 +174,7 @@ class WargaController extends Controller
                          <i class="fa fa-ellipsis-h"></i>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="javascript:;" onclick="location.assign(`'.url('keuangan/create').'?id='.$row->id.'`)">Ubah</a></li>
-                            <li><a href="javascript:;" onclick="delete_data('.$row->id.')">Delete</a></li>
+                            <li><a href="javascript:;" onclick="window.open(`'.url('kk/cetak_warga').'?no_kk='.$row->no_kk.'`)">Cetak</a></li>
                         </ul>
                     </div>
                 ';
@@ -316,6 +315,22 @@ class WargaController extends Controller
         
         // $ford=3;
         $pdf = PDF::loadView('warga.cetak_kk', compact('data'));
+        // $custom=array(0,0,500,400);
+        $pdf->setPaper('A4','landscape');
+        $pdf->stream('kartukeluarga.pdf');
+        return $pdf->stream();
+    }
+    public function cetak_warga(request $request){
+        error_reporting(0);
+        $id=decoder($request->id);
+        if(Auth::user()->role_id==2){
+            $data=Viewdatakk::where('cek',1)->where('no_kk',$request->no_kk)->where('rt',Auth::user()->rt)->get();
+        }else{
+            $data=Viewdatakk::where('cek',1)->get();
+        }
+        
+        // $ford=3;
+        $pdf = PDF::loadView('warga.cetak_warga', compact('data'));
         // $custom=array(0,0,500,400);
         $pdf->setPaper('A4','landscape');
         $pdf->stream('kartukeluarga.pdf');

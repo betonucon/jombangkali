@@ -36,6 +36,7 @@ Route::group(['prefix' => 'kk','middleware'    => 'auth'],function(){
     Route::get('/create',[WargaController::class, 'create_kk']);
     Route::get('/modal',[WargaController::class, 'modal_kk']);
     Route::get('/cetak',[WargaController::class, 'cetak_kk']);
+    Route::get('/cetak_warga',[WargaController::class, 'cetak_warga']);
     Route::post('/',[WargaController::class, 'store_kk']);
     Route::post('/import',[WargaController::class, 'import_kk']);
 });
