@@ -16,7 +16,14 @@ use App\Http\Controllers\Auth\LogoutController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('/cache-clear', function() {
+    $exitCode = Artisan::call('cache:clear');
+    return '<h1>Cache facade value cleared</h1>';
+});
+Route::get('/config-cache', function() {
+    $exitCode = Artisan::call('config:cache');
+    return '<h1>Cache facade value cleared</h1>';
+});
 
 Route::group(['prefix' => 'warga','middleware'    => 'auth'],function(){
     Route::get('/',[WargaController::class, 'index']);
@@ -24,8 +31,10 @@ Route::group(['prefix' => 'warga','middleware'    => 'auth'],function(){
     Route::get('/getdata',[WargaController::class, 'get_data']);
     Route::get('/delete_data',[WargaController::class, 'delete_data']);
     Route::get('/create',[WargaController::class, 'create']);
+    Route::get('/modal_foto',[WargaController::class, 'modal_foto']);
     Route::get('/modal',[WargaController::class, 'modal']);
     Route::post('/',[WargaController::class, 'store']);
+    Route::post('/upload_ktp',[WargaController::class, 'upload_ktp']);
     Route::post('/import',[WargaController::class, 'import']);
 });
 Route::group(['prefix' => 'kk','middleware'    => 'auth'],function(){

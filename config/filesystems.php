@@ -47,7 +47,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('app'),
         ],
-
+        'public_ktp' => [
+            'driver' => 'local',
+            'root'   => public_path() . '/_ktp',
+        ],
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),

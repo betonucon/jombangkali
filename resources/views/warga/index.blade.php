@@ -46,6 +46,7 @@
                         { data: 'nik' },
                         { data: 'no_kk' },
                         { data: 'nama' },
+                        { data: 'file_ktp' },
                         { data: 'ttgl' },
                         { data: 'umur' },
                         { data: 'jenis_kelamin' },
@@ -256,6 +257,7 @@
                             <th width="11%">NIK</th>
                             <th width="12%">NO Kartu Keluarga</th>
                             <th>Nama </th>
+                            <th width="4%">KTP</th>
                             <th width="11%">TTGL</th>
                             <th width="4%">Umur</th>
                             <th width="4%">J.K</th>
@@ -314,15 +316,46 @@
         </div>
     </div>
   </div> 
+  <div class="modal fade" id="modal-ktp" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Upload KTP</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+              <div class="alert alert-danger m-b-0" id="notifikasifoto">
+                    <div id="notifikasi-foto"></div>
+                    
+                </div>
+                <form  id="mydataktp" method="post" action="{{ url('warga/ktp') }}" enctype="multipart/form-data" >
+                    @csrf 
+                    <input type="submit">
+                    <div id="tampil_ktp"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="javascript:;" class="btn btn-white" data-dismiss="modal">Tutup</a>
+                <a href="javascript:;" class="btn btn-danger" id="upload-data" >Proses</a>
+            </div>
+        </div>
+    </div>
+  </div> 
    
 @endsection
 
 @push('ajax')
     <script>
       $('#notifikasiimport').hide();
+      $('#notifikasifoto').hide();
 
       function tambah(id){
         location.assign("{{url('warga/create')}}?id="+id)
+      }
+      function upload_ktp(nik){
+        $('#modal-ktp').modal('show');
+        $('#tampil_ktp').load("{{url('warga/modal_foto')}}?nik="+nik);
+
       }
 
       function delete_data(id){
@@ -388,6 +421,41 @@
                             document.getElementById("loadnya").style.width = "0px";
                             $('#notifikasiimport').show();
                             $('#notifikasi-import').html(msg);
+                        }
+                        
+                        
+                    }
+                });
+        });
+    
+      $('#upload-data').on('click', () => {
+            
+            var form=document.getElementById('mydataktp');
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url('warga/upload_ktp') }}",
+                    data: new FormData(form),
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    beforeSend: function() {
+                        document.getElementById("loadnya").style.width = "100%";
+                    },
+                    success: function(msg){
+                        var bat=msg.split('@');
+                        if(bat[1]=='ok'){
+                            $('#modal-ktp').modal('hide');
+                            document.getElementById("loadnya").style.width = "0px";
+                            swal("Success! berhasil diupload!", {
+									            icon: "success",
+                            });
+                            var table=$('#data-table-fixed-header').DataTable();
+                            table.ajax.url("{{ url('warga/getdata')}}").load();
+                                
+                        }else{
+                            document.getElementById("loadnya").style.width = "0px";
+                            $('#notifikasifoto').show();
+                            $('#notifikasi-foto').html(msg);
                         }
                         
                         

@@ -54,6 +54,20 @@ class WargaController extends Controller
         }
         return view('warga.create',compact('template','data','disabled','id'));
     }
+    public function modal_foto(request $request)
+    {
+        error_reporting(0);
+        $template='top';
+        $nik=$request->nik;
+        
+        $data=Warga::where('nik',$nik)->first();
+        if($id==0){
+            $disabled='';
+        }else{
+            $disabled='readonly';
+        }
+        return view('warga.modal_foto',compact('template','data','disabled','id'));
+    }
     public function modal(request $request)
     {
         error_reporting(0);
@@ -135,6 +149,13 @@ class WargaController extends Controller
                 $btn=$row->tempat_lahir.', '.$row->tanggal_lahir;
                 return $btn;
             })
+            ->addColumn('file_ktp', function ($row) {
+                if($row->ktp!=""){
+                    return '<span  class="btn btn-success btn-xs" onclick="upload_ktp(`'.$row->nik.'`)"><i class="fa fa-file-image-o"></i></span>';
+                }else{
+                    return '<span  class="btn btn-default btn-xs" onclick="upload_ktp(`'.$row->nik.'`)"><i class="fa fa-file-image-o"></i></span>';
+                }
+            })
             ->addColumn('action', function ($row) {
                 $btn='
                     <div class="btn-group">
@@ -150,7 +171,7 @@ class WargaController extends Controller
                 return $btn;
             })
             
-            ->rawColumns(['action'])
+            ->rawColumns(['action','file_ktp'])
             ->make(true);
     }
     
@@ -301,6 +322,52 @@ class WargaController extends Controller
 
                 echo'@ok';
             }
+        }
+    }
+    public function upload_ktp(request $request){
+        error_reporting(0);
+        $rules = [];
+        $messages = [];
+        
+        $rules['nik']= 'required';
+        $messages['nik.required']= 'Lengkapi kolom nik/no ktp';
+        if($request->foto!=""){
+            $rules['foto']= 'required|mimes:jpeg,png,jpg,gif';
+            $messages['foto.required']= 'Lengkapi foto';
+        }
+        
+       
+        $validator = Validator::make($request->all(), $rules, $messages);
+        $val=$validator->Errors();
+
+
+        if ($validator->fails()) {
+            echo'<div class="nitof"><b>Oops Error !</b><br><div class="isi-nitof">';
+                foreach(parsing_validator($val) as $value){
+                    
+                    foreach($value as $isi){
+                        echo'-&nbsp;'.$isi.'<br>';
+                    }
+                }
+            echo'</div></div>';
+        }else{
+            if($request->foto!=""){
+                $image = $request->file('foto');
+                $imageFileName ='KTP-'.$request->nik.'.'.$image->getClientOriginalExtension();
+                $filePath =$imageFileName;
+                $file =\Storage::disk('public_ktp');
+                if($file->put($filePath, file_get_contents($image))){
+                    $data=Warga::where('nik',$request->nik)->update([
+                            
+                        'ktp'=>$filePath,
+                    ]);
+
+                    echo'@ok';
+                }
+            }else{
+                echo'@ok'; 
+            }
+            
         }
     }
 
