@@ -302,7 +302,6 @@
                 </div>
                 <form  id="mydataimport" method="post" action="{{ url('warga/import') }}" enctype="multipart/form-data" >
                     @csrf 
-                    <!-- <input type="submit"> -->
                     <div class="form-group">
                         <label>Upload File Excel</label>
                         <input type="file" name="file" class="form-control" />
@@ -330,7 +329,6 @@
                 </div>
                 <form  id="mydataktp" method="post" action="{{ url('warga/ktp') }}" enctype="multipart/form-data" >
                     @csrf 
-                    <!-- <input type="submit"> -->
                     <div id="tampil_ktp"></div>
                 </form>
             </div>
