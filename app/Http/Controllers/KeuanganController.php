@@ -95,7 +95,7 @@ class KeuanganController extends Controller
         // if($request->kd_divisi!=""){
         //     $data = $query->where('kd_divisi',$request->kd_divisi);
         // }
-        if(Auth::user()->role_id==4){
+        if(Auth::user()->role_id==2){
             $data = $query->where('rt',Auth::user()->rt);
         }
         if(Auth::user()->role_id==3){
