@@ -86,9 +86,9 @@ function ubah_uang($uang){
 }
 function ubah_bulan($bulan){
    if($bulan>9){
-      return '0'.$bulan;
-   }else{
       return $bulan;
+   }else{
+      return '0'.$bulan;
    }
    
 }

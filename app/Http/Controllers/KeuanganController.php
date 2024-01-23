@@ -13,7 +13,7 @@ use App\Models\Keuangan;
 use App\Models\Viewdatakk;
 use App\Models\Viewkeuangan;
 use App\Models\User;
-
+use PDF;
 class KeuanganController extends Controller
 {
     
@@ -26,6 +26,18 @@ class KeuanganController extends Controller
         }else{
             return view('keuangan.index',compact('template'));
         }
+        
+    }
+    public function cetak_data(request $request)
+    {
+        error_reporting(0);
+        $template='top';
+        $tahun=$request->tahun;
+        $pdf = PDF::loadView('keuangan.cetak', compact('tahun'));
+        
+        $pdf->setPaper('A4','portrait');
+        $pdf->stream('laporan.pdf');
+        return $pdf->stream();
         
     }
     public function create(request $request)
@@ -41,6 +53,17 @@ class KeuanganController extends Controller
             $disabled='readonly';
         }
         return view('keuangan.create',compact('template','data','disabled','id'));
+    }
+    public function generate(request $request)
+    {
+        error_reporting(0);
+        
+        $data=Keuangan::whereIn('status_keuangan_id',array(2,3))->orderBy('tanggal','Asc')->get();
+        $no=1;
+        foreach($data as $o){
+            $save=Keuangan::where('id',$o->id)->update(['urut'=>$no++]);
+        }
+        
     }
     public function modal(request $request)
     {

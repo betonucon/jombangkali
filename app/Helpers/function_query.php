@@ -8,6 +8,18 @@ function get_agama(){
     $data=App\Models\Magama::get();
     return $data;
 }
+function get_periode_laporan($tahun){
+    $data=App\Models\ViewPeriodeLaporan::where('tahun',$tahun)->orderBy('bulan','Asc')->get();
+    return $data;
+}
+function get_keuangan($bulan,$tahun){
+    $data=App\Models\Viewkeuangan::whereMonth('tanggal',$bulan)->whereYear('tanggal',$tahun)->orderBy('tanggal','Asc')->get();
+    return $data;
+}
+function total_keuangan($bulan,$tahun,$act){
+    $data=App\Models\Viewkeuangan::whereMonth('tanggal',$bulan)->whereYear('tanggal',$tahun)->where('status_keuangan_id',$act)->sum('nilai');
+    return $data;
+}
 function get_statuskeuangan(){
     $data=App\Models\Mstatuskeuangan::orderBy('id','Asc')->get();
     return $data;

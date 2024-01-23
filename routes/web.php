@@ -62,6 +62,8 @@ Route::group(['prefix' => 'nonwarga','middleware'    => 'auth'],function(){
 Route::group(['prefix' => 'keuangan','middleware'    => 'auth'],function(){
     Route::get('/',[KeuanganController::class, 'index']);
     Route::get('/view',[KeuanganController::class, 'view_data']);
+    Route::get('/cetak',[KeuanganController::class, 'cetak_data']);
+    Route::get('/generateuang',[KeuanganController::class, 'generate']);
     Route::get('/getdata',[KeuanganController::class, 'get_data']);
     Route::get('/delete_data',[KeuanganController::class, 'delete_data']);
     Route::get('/create',[KeuanganController::class, 'create']);
